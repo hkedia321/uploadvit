@@ -1,0 +1,55 @@
+<!-- Default home page -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600' rel='stylesheet' type='text/css'>
+<style>
+  #notes{
+    max-height: 20rem;
+    overflow-y: scroll;
+  }
+</style>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script type="text/javascript">
+</script>
+
+
+<div class="default-page container">
+  <h1 class="center underline">Upload VIT!</h1>
+  <h5 class="center">Now access all your lab materials easily</h5>
+  <form action="/uploads/new" method="POST">
+    <div class="input-field col s6">
+      <input id="name" name="name" type="text" class="validate" data-error="wrong" data-success="right">
+      <label for="name">Your Name (<i>optional</i>)</label>
+    </div>
+    <div class="input-field col s6">
+      <input required id="subject" name="subject" type="text" class="validate" data-error="wrong" data-success="right">
+      <label for="subject">Subject</label>
+    </div>
+    <div class="input-field col s12">
+      <textarea id="notes" class="materialize-textarea" name="notes"></textarea>
+      <label for="notes">Your Notes</label>
+    </div>
+    <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+      <i class="material-icons right">send</i>
+    </button>
+
+  </form>
+  <br>
+  <table>
+    <thead>
+    <tr>
+      <th data-field="name">Name</th>
+      <th data-field="subject">Subject</th>
+      <th data-field="notes">Notes</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% _.each(uploads, function(upload) { %>
+    <tr>
+      <td><%=upload.name%></td>
+      <td><%=upload.subject%></td>
+      <td><%=upload.notes%></td>
+    </tr>
+    <% });%>
+    </tbody>
+  </table>
+</div>
