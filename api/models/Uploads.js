@@ -6,8 +6,17 @@
  */
 
 module.exports = {
-
+  schema : true,
   attributes: {
+    name:{
+      type:'string'
+    },
+    subject:{
+      type:'string'
+    },
+    notes:{
+      type:'string'
+    }
 
   }
 };
