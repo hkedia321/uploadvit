@@ -1,128 +1,176 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%=typeof title == 'undefined' ? 'Upload VIT' : title%></title>
+<head>
+  <title><%= typeof title == 'undefined' ? 'Upload VIT' : title %></title>
 
-    <!-- Viewport mobile tag for sensible mobile support -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- Viewport mobile tag for sensible mobile support -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="icon" href="/images/icon.png">
+  <!--
+      Stylesheets and Preprocessors
+      ==============================
 
+      You can always bring in CSS files manually with `<link>` tags, or asynchronously
+      using a solution like AMD (RequireJS).  Or, if you like, you can take advantage
+      of Sails' conventional asset pipeline (boilerplate Gruntfile).
 
-    <!--
-        Stylesheets and Preprocessors
-        ==============================
-
-        You can always bring in CSS files manually with `<link>` tags, or asynchronously
-        using a solution like AMD (RequireJS).  Or, if you like, you can take advantage
-        of Sails' conventional asset pipeline (boilerplate Gruntfile).
-
-        By default, stylesheets from your `assets/styles` folder are included
-        here automatically (between STYLES and STYLES END). Both CSS (.css) and LESS (.less)
-        are supported. In production, your styles will be minified and concatenated into
-        a single file.
-
-        To customize any part of the built-in behavior, just edit `tasks/pipeline.js`.
-        For example, here are a few things you could do:
-
-            + Change the order of your CSS files
-            + Import stylesheets from other directories
-            + Use a different or additional preprocessor, like SASS, SCSS or Stylus
-    -->
-
-    <!--STYLES-->
-    <link rel="stylesheet" href="/styles/importer.css">
-    <link rel="stylesheet" href="/styles/materialize.min.css">
-    <!--STYLES END-->
-    <style>
-      .nav-wrapper{
-        background-color: #26a69a;
-      }
-      .cursive{
-        font-family: cursive;
-      }
-    </style>
-  </head>
-
-  <body>
-  <nav>
-    <div class="nav-wrapper">
-      <a href="/" class="brand-logo cursive">Upload VIT</a>
-      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="sass.html">Sass</a></li>
-        <li><a href="badges.html">Components</a></li>
-        <li><a href="collapsible.html">Javascript</a></li>
-        <li><a href="mobile.html">Mobile</a></li>
-      </ul>
-      <ul class="side-nav" id="mobile-demo">
-        <li><a href="sass.html">Sass</a></li>
-        <li><a href="badges.html">Components</a></li>
-        <li><a href="collapsible.html">Javascript</a></li>
-        <li><a href="mobile.html">Mobile</a></li>
-      </ul>
-    </div>
-  </nav>
-    <%- body %>
-
-
-
-    <!--
-        Client-side Templates
-        ========================
-
-        HTML templates are important prerequisites of modern, rich client applications.
-        To work their magic, frameworks like Backbone, Angular, Ember, and Knockout require
-        that you load these templates client-side.
-
-        By default, your Gruntfile is configured to automatically load and precompile
-        client-side JST templates in your `assets/templates` folder, then
-        include them here automatically (between TEMPLATES and TEMPLATES END).
-
-        To customize this behavior to fit your needs, just edit `tasks/pipeline.js`.
-        For example, here are a few things you could do:
-
-            + Import templates from other directories
-            + Use a different template engine (handlebars, jade, dust, etc.)
-            + Internationalize your client-side templates using a server-side
-              stringfile before they're served.
-    -->
-
-    <!--TEMPLATES-->
-
-    <!--TEMPLATES END-->
-
-
-    <!--
-
-      Client-side Javascript
-      ========================
-
-      You can always bring in JS files manually with `script` tags, or asynchronously
-      on the client using a solution like AMD (RequireJS).  Or, if you like, you can
-      take advantage of Sails' conventional asset pipeline (boilerplate Gruntfile).
-
-      By default, files in your `assets/js` folder are included here
-      automatically (between SCRIPTS and SCRIPTS END).  Both JavaScript (.js) and
-      CoffeeScript (.coffee) are supported. In production, your scripts will be minified
-      and concatenated into a single file.
+      By default, stylesheets from your `assets/styles` folder are included
+      here automatically (between STYLES and STYLES END). Both CSS (.css) and LESS (.less)
+      are supported. In production, your styles will be minified and concatenated into
+      a single file.
 
       To customize any part of the built-in behavior, just edit `tasks/pipeline.js`.
       For example, here are a few things you could do:
 
-          + Change the order of your scripts
-          + Import scripts from other directories
-          + Use a different preprocessor, like TypeScript
+          + Change the order of your CSS files
+          + Import stylesheets from other directories
+          + Use a different or additional preprocessor, like SASS, SCSS or Stylus
+  -->
 
-    -->
-    <script
-      src="https://code.jquery.com/jquery-3.1.1.min.js"
-      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-      crossorigin="anonymous"></script>
-    <!--SCRIPTS-->
-    <script src="/js/dependencies/sails.io.js"></script>
-    <script src="/js/materialize.min.js"></script>
-    <!--SCRIPTS END-->
-  <script>
-    $(".button-collapse").sideNav();
-  </script>
-  </body>
+  <!--STYLES-->
+  <link rel="stylesheet" href="/styles/importer.css">
+  <link rel="stylesheet" href="/styles/materialize.min.css">
+  <!--STYLES END-->
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="/sweetalert/dist/sweetalert.css" rel="stylesheet">
+  <style>
+    .nav-wrapper {
+      background-color: #26a69a;
+    }
+
+    .cursive {
+      font-family: cursive;
+    }
+
+    .valign-center, .valign-center * {
+      vertical-align: middle;
+    }
+
+    .err {
+      color: red;
+    }
+
+    .success {
+      color: green;
+    }
+
+    .nav-img {
+      display: inline-block;
+      width: 50px;
+      vertical-align: middle;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+<nav>
+  <div class="nav-wrapper">
+    <a href="/" class="brand-logo cursive"><img src="/images/icon.png" class="nav-img"> VIT</a>
+    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+    <ul class="right hide-on-med-and-down">
+      <% if(session.authenticated){ %>
+      <li><a href="/users/view/<%= session.user.regno %>"><%= session.user.name %></a></li>
+      <li><a href="/users/myuploads">My uploads</a></li>
+      <li><a class="btn red" href="/session/destroy">Logout</a></li>
+      <% }
+      else{ %>
+      <li><a class="whylogin">why login?</a></li>
+      <li><a class="btn red" href="/users/new">Register</a></li>
+      <li><a class="btn green" href="/session/new">Login</a></li>
+      <% } %>
+
+    </ul>
+    <ul class="side-nav" id="mobile-demo">
+      <% if(session.authenticated){ %>
+      <li><a href="/users/myuploads">My uploads</a></li>
+      <li><a class="btn red" href="/session/destroy">Logout</a></li>
+      <% }
+      else{ %>
+      <li><a class="whylogin">why login?</a></li>
+      <li><a class="btn red" href="/users/new">Register</a></li>
+      <li><a class="btn green" href="/session/new">Login</a></li>
+      <% } %>
+    </ul>
+  </div>
+</nav>
+<%- body %>
+
+
+<!--
+    Client-side Templates
+    ========================
+
+    HTML templates are important prerequisites of modern, rich client applications.
+    To work their magic, frameworks like Backbone, Angular, Ember, and Knockout require
+    that you load these templates client-side.
+
+    By default, your Gruntfile is configured to automatically load and precompile
+    client-side JST templates in your `assets/templates` folder, then
+    include them here automatically (between TEMPLATES and TEMPLATES END).
+
+    To customize this behavior to fit your needs, just edit `tasks/pipeline.js`.
+    For example, here are a few things you could do:
+
+        + Import templates from other directories
+        + Use a different template engine (handlebars, jade, dust, etc.)
+        + Internationalize your client-side templates using a server-side
+          stringfile before they're served.
+-->
+
+<!--TEMPLATES-->
+
+<!--TEMPLATES END-->
+
+
+<!--
+
+  Client-side Javascript
+  ========================
+
+  You can always bring in JS files manually with `script` tags, or asynchronously
+  on the client using a solution like AMD (RequireJS).  Or, if you like, you can
+  take advantage of Sails' conventional asset pipeline (boilerplate Gruntfile).
+
+  By default, files in your `assets/js` folder are included here
+  automatically (between SCRIPTS and SCRIPTS END).  Both JavaScript (.js) and
+  CoffeeScript (.coffee) are supported. In production, your scripts will be minified
+  and concatenated into a single file.
+
+  To customize any part of the built-in behavior, just edit `tasks/pipeline.js`.
+  For example, here are a few things you could do:
+
+      + Change the order of your scripts
+      + Import scripts from other directories
+      + Use a different preprocessor, like TypeScript
+
+-->
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+<!--SCRIPTS-->
+<script src="/js/dependencies/sails.io.js"></script>
+<script src="/js/materialize.min.js"></script>
+<!--SCRIPTS END-->
+<script src="/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+  $(".button-collapse").sideNav();
+</script>
+<script>
+  $(".whylogin").click(function () {
+    swal({
+      title: "Why login?",
+      text: "" +
+      "<ul>" +
+      "<li>You can save all your files in one place</li>" +
+      "<li>You can choose to make them public or private</li>" +
+      "<li>You can access your files from anywhere</li>" +
+      "</ul>",
+      html: true
+    });
+  })
+</script>
+</body>
 </html>

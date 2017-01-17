@@ -35,7 +35,11 @@ module.exports.routes = {
   // '/': {
   //   view: 'uploads/show'
   // }
-  '/':'UploadsController.show'
+  '/':'UploadsController.show',
+  '/users/':'UsersController.all',
+  '/users':'UsersController.all',
+  '/uploads/':'UploadsController.all',
+  '/uploads':'UploadsController.all'
 
   /***************************************************************************
   *                                                                          *

@@ -63,6 +63,10 @@ module.exports.connections = {
     user: '', //optional
     password: '', //optional
     database: 'uploadvit' //optional
+  },
+  MongoConnection_mlab: {
+    adapter: 'sails-mongo',
+
   }
 
   /***************************************************************************

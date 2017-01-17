@@ -1,12 +1,19 @@
 <!-- Default home page -->
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600' rel='stylesheet' type='text/css'>
 <style>
-  #notes{
+  #notes {
     max-height: 20rem;
     overflow-y: scroll;
   }
+
+  .success {
+    color: green;
+  }
+
+  .error {
+    color: red;
+  }
 </style>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <script type="text/javascript">
 </script>
 
@@ -14,42 +21,121 @@
 <div class="default-page container">
   <h1 class="center underline cursive">Upload VIT!</h1>
   <h5 class="center">Now access all your lab materials easily</h5>
-  <form action="/uploads/new" method="POST">
-    <div class="input-field col s6">
-      <input id="name" name="name" type="text" class="validate" data-error="wrong" data-success="right">
-      <label for="name">Your Name (<i>optional</i>)</label>
-    </div>
-    <div class="input-field col s6">
-      <input required id="subject" name="subject" type="text" class="validate" data-error="wrong" data-success="right">
-      <label for="subject">Subject</label>
+  <% if(flashsuccess && flashsuccess.message){ %>
+  <h5 class="success center"><%= JSON.stringify(flashsuccess.message) %></h5>
+  <% } %>
+  <% if(flashsuccess && flashsuccess.file){ %>
+  <h5 class="success center"><%= JSON.stringify(flashsuccess.file) %></h5>
+  <% } %>
+  <% if(flasherr && flasherr.err  ){ %>
+  <h5 class="error center"><%= JSON.stringify(flasherr.err) %></h5>
+  <% } %>
+  <form action="/uploads/new" method="POST" enctype="multipart/form-data">
+    <div class="row">
+      <%
+      var m6_ornot;
+      if (session.authenticated)
+        m6_ornot = '';
+      else
+        m6_ornot = 'm6';
+      %>
+      <% if(session.authenticated){ %>
+      <div class="input-field col s6 m6 l6 hide">
+        <input id="name" name="name" type="hidden" value="<%= session.user.name %>">
+      </div>
+      <div class="input-field col s6 m6 l6 hide">
+        <input id="owner_regno" name="owner_regno" type="hidden" value="<%= session.user.regno %>">
+      </div>
+      <% } else { %>
+      <div class="input-field col s6 m6 l6 hide">
+        <input id="owner_regno" name="owner_regno" type="hidden" value="annonymous">
+      </div>
+      <div class="input-field col s6 m6 l6">
+        <input id="name" name="name" type="text" class="validate">
+        <label for="name">Your Name</label>
+      </div>
+      <% } %>
+      <div class="input-field col s12 <%= m6_ornot %>">
+        <input required id="subject" name="subject" type="text" class="validate" data-error="wrong"
+               data-success="right">
+        <label for="subject">Subject (required)</label>
+      </div>
     </div>
     <div class="input-field col s12">
       <textarea id="notes" class="materialize-textarea" name="notes"></textarea>
       <label for="notes">Your Notes</label>
     </div>
-    <input type="hidden" name="_csrf" value="<%= _csrf %>" />
-    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
-      <i class="material-icons right">send</i>
-    </button>
-
+    <div class="file-field input-field">
+      <div class="btn">
+        <span>File</span>
+        <input type="file" name="file" id="file" placeholder="Upload a file">
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text" placeholder="Upload a file(max size 1mb)">
+      </div>
+    </div>
+    <input type="hidden" name="_csrf" value="<%= _csrf %>"/>
+    <% if(session.authenticated){ %>
+    <div class="col s12 left-align valign-center"
+         title="Public means others can see">
+      <div class="switch">
+        <label>
+          Personal
+          <input type="checkbox" name="public" id="public" value="1" checked>
+          <span class="lever"></span>
+          public
+        </label>
+      </div>
+    </div>
+    <% }
+    else{ %>
+    <div class="switch hide">
+      <label>
+        Personal
+        <input type="checkbox" name="public" id="public" value="1" checked>
+        <span class="lever"></span>
+        public
+      </label>
+    </div>
+    <% } %>
+    <div class="right-align col s12 m12 l12">
+      <button class="btn waves-effect waves-light col s12 m12 l12" type="submit" name="action">Upload
+        <i class="material-icons right">send</i>
+      </button>
+    </div>
+    <input type="hidden" name="_csrf" value="<%= _csrf %>">
   </form>
   <br>
+  <h5 class="left">All public uploads :</h5>
   <table>
     <thead>
     <tr>
       <th data-field="name">Name</th>
       <th data-field="subject">Subject</th>
       <th data-field="notes">Notes</th>
+      <th data-field="file">File</th>
     </tr>
     </thead>
     <tbody>
-    <% _.each(uploads, function(upload) { %>
+    <% _.each(uploads, function(upload) {
+    if(upload.public){
+    %>
     <tr>
-      <td><%=upload.name%></td>
-      <td><%=upload.subject%></td>
-      <td><%=upload.notes%></td>
+      <td><%= upload.name %></td>
+      <td><%= upload.subject %></td>
+      <td><%= upload.notes %></td>
+      <%
+        var_filename = "no file";
+        var_fileurl = "";
+        if (typeof upload.fileurl !== 'undefined' && upload.fileurl && upload.fileurl.length != 0) {
+          var_filename = upload.filename;
+          var_fileurl = upload.fileurl;
+        }
+      %>
+      <td><a href="<%= var_fileurl %>" target="_blank"><%= var_filename %></a></td>
     </tr>
-    <% });%>
+    <% }
+    }); %>
     </tbody>
   </table>
 </div>

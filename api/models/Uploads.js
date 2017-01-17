@@ -8,6 +8,9 @@
 module.exports = {
   schema : true,
   attributes: {
+    owner_regno:{
+      type:'string'
+    },
     name:{
       type:'string'
     },
@@ -15,6 +18,15 @@ module.exports = {
       type:'string'
     },
     notes:{
+      type:'string'
+    },
+    public:{
+      type:'boolean'
+    },
+    fileurl:{
+      type:'string'
+    },
+    filename:{
       type:'string'
     }
 

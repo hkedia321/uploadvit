@@ -26,7 +26,16 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  // '*': true,
+  '*': 'flash',
+  users:{
+    '*':"flash",
+    'edit':["sessionAuth","flash"],
+    'view':["flash","sessionAuth"],
+    'myuploads':["flash","sessionAuth"],
+    'myuploadsajax':["sessionAuth"],
+    'deleteuploadajax':["sessionAuth"],
+    'makepublicajax':["sessionAuth"]
+  }
 
   /***************************************************************************
   *                                                                          *

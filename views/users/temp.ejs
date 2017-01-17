@@ -1,0 +1,38 @@
+<% _.each(foundUploads, function(upload) { %>
+<tr class="center">
+  <td class="center"><%= upload.subject %></td>
+  <td class="center">
+    <%= upload.notes %></td>
+  <% if(upload.filename){ %>
+  <td class="center"><a href="<%= upload.fileurl %>" target="_blank"><%= upload.filename %></a></td>
+  <% }
+  else{ %>
+  <td class="center">no file</td>
+  <% } %>
+  <td class="center">
+    <% if(upload.public){ %>
+    <div class="">
+      <div class="switch">
+        <label>
+          <input type="checkbox" name="public" id="public" value="1" checked>
+          <span class="lever"></span>
+        </label>
+      </div>
+    </div>
+    <% }
+    else{ %>
+    <div class="">
+      <div class="switch">
+        <label>
+          <input type="checkbox" name="public" id="public" value="1">
+          <span class="lever"></span>
+        </label>
+      </div>
+    </div>
+    <% } %>
+  </td>
+  <td class="center">
+    <button class="btn red btn-small">Delete</button>
+  </td>
+</tr>
+<% }); %>

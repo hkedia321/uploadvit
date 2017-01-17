@@ -1,0 +1,130 @@
+<style>
+  tr, td {
+    text-align: center;
+  }
+</style>
+<div class="container">
+  <div class="row">
+    <h3 class="center">Your uploads</h3>
+    <% if(foundUploads.length == 0){ %>
+    <h5 class="center err">You have no uploads</h5>
+    <% } %>
+    <form action="#" method="POST">
+      <table class="center">
+        <thead>
+        <tr>
+          <th data-field="subject" class="center">Subject</th>
+          <th data-field="notes" class="center">Notes</th>
+          <th data-field="file" class="center">File</th>
+          <th data-field="public" class="center">Public</th>
+          <th data-field="Delete" class="center">Delete</th>
+        </tr>
+        </thead>
+        <tbody id="uploadsbody">
+
+        </tbody>
+      </table>
+    </form>
+  </div>
+</div>
+<script>
+  function make_del_but() {
+    $(".deletebut").click(function () {
+      deletethis($(this).attr("data-deleteid"));
+    });
+  }
+  function make_public_but() {
+    $(".publiccheckbox").change(function () {
+      var new_state = $(this).prop('checked');
+      var id=$(this).attr("data-rowid");
+      var url = "<%= sails.getBaseurl() %>" + "/users/makepublicajax?id=" + id+"&public="+new_state;
+      console.log("Url is:" + url);
+      $.get(url, function (data, status) {
+        console.log("The data is:" + data.success);
+        if (status != 'success' || !data.success)
+          swal("Failure!", "Couldn't modify this item", "error");
+        else {
+          loaddata();
+          if(new_state)
+            Materialize.toast('Successfully changed to public!', 3000);
+          else
+            Materialize.toast('Successfully changed to non-public!', 3000);
+        }
+      });
+    });
+  }
+  function newrow(id, subject, notes, public, fileurl, filename) {
+    var row = "<tr id='row_" + id + "'>";
+    row += "<td>";
+    row += subject;
+    row += "</td>";
+    row += "<td>";
+    row += notes;
+    row += "</td>";
+    row += "<td>";
+    row += "<a href='" + fileurl + "' target='_blank'>" + filename + "</a>";
+    row += "</td>";
+    row += "<td>";
+    var check_or_not = "";
+    if (public)
+      check_or_not = " checked";
+    row += "<div class='switch' title='Public means others can see' >";
+    row += "<label>";
+    row += "<input type='checkbox' class='publiccheckbox' name='public' value='1' data-rowid='" + id + "'" + check_or_not + ">";
+    row += "<span class='lever'></span>";
+    row += "</label>";
+    row += "</div>";
+    row += "</td>";
+    row += "<td>";
+    row += "<a class='deletebut btn red btn-small' data-deleteid='" + id + "'>Delete</a>";
+    row += "</td>";
+    row += "</tr>";
+    $("#uploadsbody").append(row);
+  }
+  function loaddata() {
+    $("#uploadsbody").html(" ");
+    $.getJSON("<%= sails.getBaseurl() %>" + "/users/myuploadsajax/", function (result) {
+      var count = 0;
+      result = result.foundUploads;
+      console.log("the len is:" + result.length);
+      $.each(result, function (i, field) {
+        var id = field.id;
+        var subject = field.subject;
+        var notes = field.notes;
+        var public = field.public;
+        var fileurl = field.fileurl;
+        var filename = field.filename;
+        newrow(id, subject, notes, public, fileurl, filename);
+      });
+      make_del_but();
+      make_public_but();
+    });
+  }
+  function deletethis(id) {
+    console.log("Delete id:" + id);
+    var regno = "<%= session.user.regno %>";
+    swal({
+        title: "Are you sure?",
+        text: "You will not be able to recover this entry!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, delete it!",
+        closeOnConfirm: false
+      },
+      function () {
+        var url = "<%= sails.getBaseurl() %>" + "/users/deleteuploadajax?id=" + id;
+        console.log("Url is:" + url);
+        $.get(url, function (data, status) {
+          console.log("The data is:" + data.success);
+          if (status != 'success' || !data.success)
+            swal("Failure!", "Couldn't delete this item", "error");
+          else {
+            loaddata();
+            swal("Deleted!", "The item has been deleted successfully", "success");
+          }
+        });
+      });
+  }
+  window.onload = loaddata;
+</script>

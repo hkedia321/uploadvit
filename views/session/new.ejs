@@ -1,0 +1,20 @@
+<div class="container">
+  <h2 class="center">Log in</h2>
+  <div class="row">
+    <div class="col m6 offset-m3">
+      <form action="#" method="POST">
+        <div class="input-field col s12">
+          <input type="text" class="" id="regno" name="regno">
+          <label for="regno">Reg no</label>
+        </div>
+        <div class="input-field col s12">
+          <input type="text" class="" id="password" name="password">
+          <label for="password">Password</label>
+        </div>
+        <input type="hidden" name="_csrf" value="<%= _csrf %>">
+        <button type="submit" class="btn col s12">Log in <i class="material-icons right">send</i></button>
+
+      </form>
+    </div>
+  </div>
+</div>

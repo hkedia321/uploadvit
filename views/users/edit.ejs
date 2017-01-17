@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row">
+    <div class="col s12 m6 offset-m3">
+      <h4 class="left-align">Reg no: <%- session.user.regno %></h4>
+      <br>
+      <%if(typeof err!=='undefined' && err){%>
+      <h5 class="center err"><%=err%></h5>
+      <%}%>
+      <%if(typeof success!=='undefined' && success){%>
+      <h5 class="center success"><%=success%></h5>
+      <%}%>
+      <form action="#" method="POST">
+        <div class="input-field col s12">
+          <input type="text" name="name" id="name" value="<%- session.user.name %>">
+          <label for="name">Name</label>
+        </div>
+        <div class="input-field col s12">
+          <input type="password" name="password" id="password" value="<%- session.user.password %>">
+          <label for="password">Password</label>
+        </div>
+        <div class="input-field col s12">
+          <input type="password" name="confirm" id="confirm" value="<%- session.user.password %>">
+          <label for="confirm">Confirm Password</label>
+        </div>
+        <input type="hidden" name="_csrf" value="<%= _csrf %>">
+        <button class="col s12 btn" type="submit">Update</button>
+      </form>
+    </div>
+  </div>
+</div>
